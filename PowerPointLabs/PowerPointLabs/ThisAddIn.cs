@@ -107,6 +107,7 @@ namespace PowerPointLabs
             Application.AfterNewPresentation += ThisAddInAfterNewPresentation;
             Application.PresentationOpen += ThisAddInPrensentationOpen;
             Application.PresentationClose += ThisAddInPresentationClose;
+            Application.WindowBeforeRightClick += Application_WindowBeforeRightClick;
 
             // Priority Mid: Window Actions
             Application.WindowActivate += ThisAddInApplicationOnWindowActivate;
@@ -117,6 +118,16 @@ namespace PowerPointLabs
 
             // Priority Low: Slide Actions
             Application.SlideSelectionChanged += ThisAddInSlideSelectionChanged;
+        }
+
+        private void Application_WindowBeforeRightClick(PowerPoint.Selection sel, ref bool cancel)
+        {
+            // PX per 100 pts
+            int xref = Application.ActiveWindow.PointsToScreenPixelsX(100) - Application.ActiveWindow.PointsToScreenPixelsX(0);
+            int yref = Application.ActiveWindow.PointsToScreenPixelsY(100) - Application.ActiveWindow.PointsToScreenPixelsY(0);
+            // positive: downwards, right
+            Ribbon.XCoordRightClick = (float)((float)(Cursor.Position.X - Application.ActiveWindow.PointsToScreenPixelsX(0)) / (float)xref) * 100;
+            Ribbon.YCoordRightClick = (float)((float)(Cursor.Position.Y - Application.ActiveWindow.PointsToScreenPixelsY(0)) / (float)yref) * 100;
         }
 
         private void ThisAddInApplicationOnWindowDeactivate(PowerPoint.Presentation pres, PowerPoint.DocumentWindow wn)

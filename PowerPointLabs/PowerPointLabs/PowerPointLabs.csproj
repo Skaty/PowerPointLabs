@@ -403,6 +403,7 @@
     <Compile Include="FunctionalTestInterface.Impl\PowerPointLabsFT.cs" />
     <Compile Include="FunctionalTestInterface.Impl\PowerPointOperations.cs" />
     <Compile Include="FunctionalTestInterface.Impl\SlideData.cs" />
+    <Compile Include="PasteLab\PasteLabMain.cs" />
     <Compile Include="PictureSlidesLab\ModelFactory\Options\FrostedGlassTextBoxStyleOptions.cs" />
     <Compile Include="PictureSlidesLab\ModelFactory\Options\FrostedGlassBannerStyleOptions.cs" />
     <Compile Include="PictureSlidesLab\ModelFactory\Options\BannerStyleOptions.cs" />
@@ -1440,6 +1441,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\PositionsLab\RadialShapeOrientationFixedIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PasteLab.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pastelab.png" />
   </ItemGroup>
   <ItemGroup />
   <!-- Include the build rules for a C# project. -->

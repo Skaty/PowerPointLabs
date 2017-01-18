@@ -282,6 +282,11 @@
         public const string ContextSpeakSelectedTextLabel = "Speak Selected Text";
         public const string ContextAddCurrentSlideLabel = "Add Audio (Current Slide)";
         public const string ContextReplaceAudioLabel = "Replace Audio";
+
+        public const string PasteLabMenuLabel = "Paste Lab";
+        public const string PasteToFillSlideLabel = "Paste To Fill Slide";
+        public const string PasteToCursorLabel = "Paste To Cursor Position";
+
         # endregion
         # endregion
 

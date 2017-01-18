@@ -128,7 +128,10 @@ namespace PowerPointLabs
 
         public bool EmbedAudioVisible = true;
         public bool RecorderPaneVisible = false;
-        
+
+        public float XCoordRightClick = 0.0f;
+        public float YCoordRightClick = 0.0f;
+
         private bool _previewCurrentSlide;
         
         private List<string> _voiceNames;
@@ -739,7 +742,19 @@ namespace PowerPointLabs
         {
             return TextCollection.PowerPointLabsMenuLabel;
         }
-        # endregion
+        public string GetPasteLabMenuLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.PasteLabMenuLabel;
+        }
+        public string GetPasteToFillSlideLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.PasteToFillSlideLabel;
+        }
+        public string GetPasteToCursorLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.PasteToCursorLabel;
+        }
+        #endregion
 
         //Button Click Callbacks        
         public void AddAnimationButtonClick(Office.IRibbonControl control)
@@ -1370,6 +1385,18 @@ namespace PowerPointLabs
                 throw;
             }
         }
+        public Bitmap GetPasteLabContextImage(Office.IRibbonControl control)
+        {
+            try
+            {
+                return new Bitmap(Properties.Resources.PasteLab);
+            }
+            catch (Exception e)
+            {
+                Logger.LogException(e, "GetPasteLabContextImage");
+                throw;
+            }
+        }
         # endregion
 
         public void ZoomStyleChanged(Office.IRibbonControl control, bool pressed)
@@ -1433,6 +1460,14 @@ namespace PowerPointLabs
         public bool OnGetEnabledHighlightTextFragments(Office.IRibbonControl control)
         {
             return HighlightTextFragmentsEnabled;
+        }
+        public bool OnGetEnabledPasteToCursor(Office.IRibbonControl control)
+        {
+            return Clipboard.GetDataObject() != null;
+        }
+        public bool OnGetEnabledPasteToFillSlide(Office.IRibbonControl control)
+        {
+            return Clipboard.ContainsImage();
         }
         # endregion
 
@@ -2438,6 +2473,28 @@ namespace PowerPointLabs
                 ErrorDialogWrapper.ShowDialog("Error in drawing lab", e.Message, e);
                 Logger.LogException(e, "DrawingsLabButtonClicked");
                 throw;
+            }
+        }
+        #endregion
+
+        #region Feature: Paste Lab
+        public void PasteToFillSlideBtnClick(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
+
+            if (Clipboard.ContainsImage())
+            {
+                PasteLab.PasteLabMain.PasteToFit();
+            }
+        }
+
+        public void PasteToCursorBtnClick(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
+
+            if (Clipboard.GetDataObject() != null)
+            {
+                PasteLab.PasteLabMain.PasteToCursor(XCoordRightClick, YCoordRightClick);
             }
         }
         #endregion

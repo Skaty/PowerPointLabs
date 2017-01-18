@@ -819,7 +819,17 @@
     </contextMenu>
     <contextMenu idMso="ContextMenuFrame">
 	    <menuSeparator id="separatorFrame" />
-	    <menu id="menuFrame" getLabel="GetPowerPointLabsMenuLabel" getImage="GetContextMenuImage" enabled="false">
+	    <menu id="menuFrame" getLabel="GetPowerPointLabsMenuLabel" getImage="GetContextMenuImage">
+        <button id="pasteToFillSlide"
+          getLabel="GetPasteToFillSlideLabel"
+          getImage="GetEditNameContextImage"
+          getEnabled="OnGetEnabledPasteToFillSlide"
+          onAction="PasteToFillSlideBtnClick"/>
+        <button id="pasteToCursorSlide"
+          getLabel="GetPasteToCursorLabel"
+          getImage="GetEditNameContextImage"
+          getEnabled="OnGetEnabledPasteToCursor"
+          onAction="PasteToCursorBtnClick"/>
 	    </menu>
     </contextMenu>
     <contextMenu idMso="ContextMenuGraphicOleClassic">
