@@ -754,6 +754,10 @@ namespace PowerPointLabs
         {
             return TextCollection.PasteToCursorLabel;
         }
+        public string GetPasteIntoGroupLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.PasteIntoGroupLabel;
+        }
         #endregion
 
         //Button Click Callbacks        
@@ -1462,6 +1466,10 @@ namespace PowerPointLabs
             return HighlightTextFragmentsEnabled;
         }
         public bool OnGetEnabledPasteToCursor(Office.IRibbonControl control)
+        {
+            return Clipboard.GetDataObject() != null;
+        }
+        public bool OnGetEnabledPasteIntoGroup(Office.IRibbonControl control)
         {
             return Clipboard.GetDataObject() != null;
         }
@@ -2495,6 +2503,16 @@ namespace PowerPointLabs
             if (Clipboard.GetDataObject() != null)
             {
                 PasteLab.PasteLabMain.PasteToCursor(XCoordRightClick, YCoordRightClick);
+            }
+        }
+
+        public void PasteToGroupBtnClick(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
+
+            if (Clipboard.GetDataObject() != null)
+            {
+                PasteLab.PasteLabMain.PasteIntoSelectedGroup();
             }
         }
         #endregion

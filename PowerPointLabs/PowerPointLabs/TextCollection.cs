@@ -286,6 +286,7 @@
         public const string PasteLabMenuLabel = "Paste Lab";
         public const string PasteToFillSlideLabel = "Paste To Fill Slide";
         public const string PasteToCursorLabel = "Paste To Cursor Position";
+        public const string PasteIntoGroupLabel = "Paste Into Group";
 
         # endregion
         # endregion

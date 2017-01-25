@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace PowerPointLabs.PasteLab
 {
@@ -27,6 +28,26 @@ namespace PowerPointLabs.PasteLab
             pastedShape.Top = 0;
             pastedShape.Height = PowerPointPresentation.Current.SlideHeight;
             pastedShape.Width = PowerPointPresentation.Current.SlideWidth;
+        }
+
+        internal static void PasteIntoSelectedGroup()
+        {
+            PowerPointSlide curslide = PowerPointCurrentPresentationInfo.CurrentSlide;
+            PowerPoint.ShapeRange selectedShapes = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange;
+            selectedShapes = selectedShapes.Ungroup();
+
+            Shape pastedShape = curslide.Shapes.Paste()[1];
+
+            List<String> newShapeNames = new List<String>();
+
+            foreach (PowerPoint.Shape shape in selectedShapes)
+            {
+                newShapeNames.Add(shape.Name);
+            }
+            newShapeNames.Add(pastedShape.Name);
+
+            PowerPoint.ShapeRange newShapeRange = curslide.Shapes.Range(newShapeNames.ToArray());
+            newShapeRange.Group();
         }
     }
 }
