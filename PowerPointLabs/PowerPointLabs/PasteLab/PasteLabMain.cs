@@ -14,9 +14,19 @@ namespace PowerPointLabs.PasteLab
         public static void PasteToCursor(float x, float y)
         {
             PowerPointSlide curslide = PowerPointCurrentPresentationInfo.CurrentSlide;
-            Shape pastedShape = curslide.Shapes.Paste()[1];
+            PowerPoint.ShapeRange pastedShape = curslide.Shapes.Paste();
+            if (pastedShape.Count > 1)
+            {
+                pastedShape.Group();
+            }
+
             pastedShape.Left = x;
             pastedShape.Top = y;
+
+            if (pastedShape.Count > 1)
+            {
+                pastedShape.Ungroup();
+            }
         }
         public static void PasteToFit()
         {
@@ -36,7 +46,7 @@ namespace PowerPointLabs.PasteLab
             PowerPoint.ShapeRange selectedShapes = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange;
             selectedShapes = selectedShapes.Ungroup();
 
-            Shape pastedShape = curslide.Shapes.Paste()[1];
+            PowerPoint.ShapeRange pastedShapes = curslide.Shapes.Paste();
 
             List<String> newShapeNames = new List<String>();
 
@@ -44,7 +54,11 @@ namespace PowerPointLabs.PasteLab
             {
                 newShapeNames.Add(shape.Name);
             }
-            newShapeNames.Add(pastedShape.Name);
+            
+            foreach (PowerPoint.Shape shape in pastedShapes)
+            {
+                newShapeNames.Add(shape.Name);
+            }
 
             PowerPoint.ShapeRange newShapeRange = curslide.Shapes.Range(newShapeNames.ToArray());
             newShapeRange.Group();
