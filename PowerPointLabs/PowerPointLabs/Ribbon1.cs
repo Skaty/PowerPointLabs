@@ -754,6 +754,10 @@ namespace PowerPointLabs
         {
             return TextCollection.PasteToCursorLabel;
         }
+        public string GetPasteToPositionLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.PasteToPositionLabel;
+        }
         public string GetPasteIntoGroupLabel(Office.IRibbonControl control)
         {
             return TextCollection.PasteIntoGroupLabel;
@@ -2503,6 +2507,16 @@ namespace PowerPointLabs
             if (Clipboard.GetDataObject() != null)
             {
                 PasteLab.PasteLabMain.PasteToCursor(XCoordRightClick, YCoordRightClick);
+            }
+        }
+
+        public void PasteToPositionBtnClick(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
+
+            if (Clipboard.GetDataObject() != null)
+            {
+                PasteLab.PasteLabMain.PasteToPosition();
             }
         }
 

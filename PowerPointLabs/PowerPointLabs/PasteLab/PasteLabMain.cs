@@ -106,5 +106,26 @@ namespace PowerPointLabs.PasteLab
 
             newSlide.Delete();
         }
+
+        internal static void PasteToPosition()
+        {
+            Presentation cur = Globals.ThisAddIn.Application.ActivePresentation;
+            PowerPointSlide slideToPaste = PowerPointCurrentPresentationInfo.CurrentSlide;
+
+            var customLayout = cur.SlideMaster.CustomLayouts[2];
+            var newSlide = cur.Slides.AddSlide(cur.Slides.Count + 1, customLayout);
+
+            PowerPoint.ShapeRange correctShapes = newSlide.Shapes.Paste();
+
+            foreach (PowerPoint.Shape shape in correctShapes)
+            {
+                shape.Copy();
+                PowerPoint.Shape pastedShape = slideToPaste.Shapes.Paste()[1];
+                pastedShape.Top = shape.Top;
+                pastedShape.Left = shape.Left;
+            }
+
+            newSlide.Delete();
+        }
     }
 }

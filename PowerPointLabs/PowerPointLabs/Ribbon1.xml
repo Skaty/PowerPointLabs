@@ -835,6 +835,11 @@
           getImage="GetEditNameContextImage"
           getEnabled="OnGetEnabledPasteToCursor"
           onAction="PasteToCursorBtnClick"/>
+        <button id="pasteToPositionSlide"
+          getLabel="GetPasteToPositionLabel"
+          getImage="GetEditNameContextImage"
+          getEnabled="OnGetEnabledPasteToCursor"
+          onAction="PasteToPositionBtnClick"/>
 	    </menu>
     </contextMenu>
     <contextMenu idMso="ContextMenuGraphicOleClassic">
