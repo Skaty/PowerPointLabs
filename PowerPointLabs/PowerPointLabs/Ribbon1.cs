@@ -762,6 +762,10 @@ namespace PowerPointLabs
         {
             return TextCollection.PasteIntoGroupLabel;
         }
+        public string GetReplaceClipboardShapeLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.ReplaceClipboardLabel;
+        }
         #endregion
 
         //Button Click Callbacks        
@@ -2527,6 +2531,15 @@ namespace PowerPointLabs
             if (Clipboard.GetDataObject() != null)
             {
                 PasteLab.PasteLabMain.PasteIntoSelectedGroup();
+            }
+        }
+        public void ReplaceClipboardShapeButtonClick(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
+
+            if (Clipboard.GetDataObject() != null)
+            {
+                PasteLab.PasteLabMain.ReplaceClipboardItem();
             }
         }
         #endregion

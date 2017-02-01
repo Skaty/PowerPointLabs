@@ -288,6 +288,7 @@
         public const string PasteToCursorLabel = "Paste To Cursor Position";
         public const string PasteToPositionLabel = "Paste To Position";
         public const string PasteIntoGroupLabel = "Paste Into Group";
+        public const string ReplaceClipboardLabel = "Replace Clipboard Item";
 
         # endregion
         # endregion

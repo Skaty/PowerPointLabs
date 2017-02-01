@@ -401,6 +401,10 @@
                getLabel ="GetConvertToPictureShapeLabel"
                getImage="GetConvertToPicMenuImage"
                onAction="ConvertToPictureButtonClick"/>
+        <button id="ReplaceClipboardItem"
+               getLabel ="GetReplaceClipboardShapeLabel"
+               getImage="GetConvertToPicMenuImage"
+               onAction="ReplaceClipboardShapeButtonClick"/>
         <button id="addCustomShapeShape"
                getLabel ="GetAddCustomShapeShapeLabel"
                getImage="GetAddToCustomShapeContextImage"

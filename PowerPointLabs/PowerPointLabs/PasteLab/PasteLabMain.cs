@@ -53,6 +53,7 @@ namespace PowerPointLabs.PasteLab
 
             selectedShapes.Copy();
             newSlide.Shapes.Paste();
+            pastedShapes.Copy();
 
             List<int> order = new List<int>();
             
@@ -125,6 +126,28 @@ namespace PowerPointLabs.PasteLab
                 pastedShape.Left = shape.Left;
             }
 
+            newSlide.Delete();
+        }
+
+        internal static void ReplaceClipboardItem()
+        {
+            Presentation cur = Globals.ThisAddIn.Application.ActivePresentation;
+            PowerPoint.ShapeRange selectedShapes = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange;
+
+            var customLayout = cur.SlideMaster.CustomLayouts[2];
+            var newSlide = cur.Slides.AddSlide(cur.Slides.Count + 1, customLayout);
+
+            PowerPoint.Shape oldShape = newSlide.Shapes.Paste()[1];
+
+            selectedShapes.Copy();
+            PowerPoint.Shape newShape = newSlide.Shapes.Paste()[1];
+
+            foreach (Effect eff in newSlide.TimeLine.MainSequence)
+            {
+                eff.Shape = newShape;
+            }
+
+            newShape.Cut();
             newSlide.Delete();
         }
     }
