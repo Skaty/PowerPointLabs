@@ -42,11 +42,30 @@ namespace PowerPointLabs.PasteLab
 
         internal static void PasteIntoSelectedGroup()
         {
+            Presentation cur = Globals.ThisAddIn.Application.ActivePresentation;
             PowerPointSlide curslide = PowerPointCurrentPresentationInfo.CurrentSlide;
             PowerPoint.ShapeRange selectedShapes = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange;
-            selectedShapes = selectedShapes.Ungroup();
+
+            var customLayout = cur.SlideMaster.CustomLayouts[2];
+            var newSlide = cur.Slides.AddSlide(cur.Slides.Count + 1, customLayout);
 
             PowerPoint.ShapeRange pastedShapes = curslide.Shapes.Paste();
+
+            selectedShapes.Copy();
+            newSlide.Shapes.Paste();
+
+            List<int> order = new List<int>();
+            
+            foreach (Effect eff in curslide.TimeLine.MainSequence)
+            {
+                if (eff.Shape.Equals(selectedShapes[1]))
+                {
+                    order.Add(eff.Index);
+                }
+            }
+
+            selectedShapes = selectedShapes.Ungroup();
+            
 
             List<String> newShapeNames = new List<String>();
 
@@ -61,7 +80,31 @@ namespace PowerPointLabs.PasteLab
             }
 
             PowerPoint.ShapeRange newShapeRange = curslide.Shapes.Range(newShapeNames.ToArray());
-            newShapeRange.Group();
+            Shape newGroupedShape = newShapeRange.Group();
+
+            for (int i = 1; i <= order.Count; i++)
+            {
+                int curo = order[i - 1];
+                Effect eff = curslide.TimeLine.MainSequence.Clone(newSlide.TimeLine.MainSequence[i]);
+                eff.Shape = newGroupedShape;
+
+                if (newSlide.TimeLine.MainSequence.Count + 1 < curo)
+                {
+                    // out of range, assumed to be last
+                    eff.MoveAfter(curslide.TimeLine.MainSequence[curslide.TimeLine.MainSequence.Count]);
+                }
+                else if (curo == 1)
+                {
+                    // first item!
+                    eff.MoveBefore(curslide.TimeLine.MainSequence[1]);
+                }
+                else
+                {
+                    eff.MoveAfter(curslide.TimeLine.MainSequence[curo - 1]);
+                }
+            }
+
+            newSlide.Delete();
         }
     }
 }
