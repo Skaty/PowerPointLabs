@@ -56,7 +56,7 @@ namespace PowerPointLabs.PasteLab
             pastedShapes.Copy();
 
             List<int> order = new List<int>();
-            
+
             foreach (Effect eff in curslide.TimeLine.MainSequence)
             {
                 if (eff.Shape.Equals(selectedShapes[1]))
@@ -83,13 +83,19 @@ namespace PowerPointLabs.PasteLab
             PowerPoint.ShapeRange newShapeRange = curslide.Shapes.Range(newShapeNames.ToArray());
             Shape newGroupedShape = newShapeRange.Group();
 
-            for (int i = 1; i <= order.Count; i++)
+            foreach (int curo in order)
             {
-                int curo = order[i - 1];
-                Effect eff = curslide.TimeLine.MainSequence.Clone(newSlide.TimeLine.MainSequence[i]);
+                Effect eff = newSlide.TimeLine.MainSequence[1];
                 eff.Shape = newGroupedShape;
 
-                if (newSlide.TimeLine.MainSequence.Count + 1 < curo)
+                if (curslide.TimeLine.MainSequence.Count == 0)
+                {
+                    Shape tempShape = curslide.Shapes.AddLine(0, 0, 1, 1);
+                    Effect tempEff = curslide.TimeLine.MainSequence.AddEffect(tempShape, MsoAnimEffect.msoAnimEffectAppear);
+                    eff.MoveAfter(tempEff);
+                    tempEff.Delete();
+                }
+                else if (curslide.TimeLine.MainSequence.Count + 1 < curo)
                 {
                     // out of range, assumed to be last
                     eff.MoveAfter(curslide.TimeLine.MainSequence[curslide.TimeLine.MainSequence.Count]);
