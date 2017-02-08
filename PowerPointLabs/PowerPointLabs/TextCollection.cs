@@ -289,6 +289,7 @@
         public const string PasteToPositionLabel = "Paste To Position";
         public const string PasteIntoGroupLabel = "Paste Into Group";
         public const string ReplaceClipboardLabel = "Replace Clipboard Item";
+        public const string MergeShapesLabel = "Merge Shapes";
 
         # endregion
         # endregion

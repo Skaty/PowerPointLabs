@@ -766,6 +766,10 @@ namespace PowerPointLabs
         {
             return TextCollection.ReplaceClipboardLabel;
         }
+        public string GetMergeShapesLabel(Office.IRibbonControl control)
+        {
+            return TextCollection.MergeShapesLabel;
+        }
         #endregion
 
         //Button Click Callbacks        
@@ -2540,6 +2544,15 @@ namespace PowerPointLabs
             if (Clipboard.GetDataObject() != null)
             {
                 PasteLab.PasteLabMain.ReplaceClipboardItem();
+            }
+        }
+        public void MergeGroupButtonClick(Office.IRibbonControl control)
+        {
+            Globals.ThisAddIn.Application.StartNewUndoEntry();
+
+            if (Clipboard.GetDataObject() != null)
+            {
+                PasteLab.PasteLabMain.MergeGroup();
             }
         }
         #endregion

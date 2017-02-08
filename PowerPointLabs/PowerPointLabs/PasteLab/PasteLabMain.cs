@@ -40,6 +40,37 @@ namespace PowerPointLabs.PasteLab
             pastedShape.Width = PowerPointPresentation.Current.SlideWidth;
         }
 
+        internal static void TransferEffects(List<int> effOrder, Shape newGroupedShape, PowerPointSlide curSlide, Slide newSlide)
+        {
+            foreach (int curo in effOrder)
+            {
+                Effect eff = newSlide.TimeLine.MainSequence[1];
+                eff.Shape = newGroupedShape;
+
+                if (curSlide.TimeLine.MainSequence.Count == 0)
+                {
+                    Shape tempShape = curSlide.Shapes.AddLine(0, 0, 1, 1);
+                    Effect tempEff = curSlide.TimeLine.MainSequence.AddEffect(tempShape, MsoAnimEffect.msoAnimEffectAppear);
+                    eff.MoveAfter(tempEff);
+                    tempEff.Delete();
+                }
+                else if (curSlide.TimeLine.MainSequence.Count + 1 < curo)
+                {
+                    // out of range, assumed to be last
+                    eff.MoveAfter(curSlide.TimeLine.MainSequence[curSlide.TimeLine.MainSequence.Count]);
+                }
+                else if (curo == 1)
+                {
+                    // first item!
+                    eff.MoveBefore(curSlide.TimeLine.MainSequence[1]);
+                }
+                else
+                {
+                    eff.MoveAfter(curSlide.TimeLine.MainSequence[curo - 1]);
+                }
+            }
+        }
+
         internal static void PasteIntoSelectedGroup()
         {
             Presentation cur = Globals.ThisAddIn.Application.ActivePresentation;
@@ -83,33 +114,7 @@ namespace PowerPointLabs.PasteLab
             PowerPoint.ShapeRange newShapeRange = curslide.Shapes.Range(newShapeNames.ToArray());
             Shape newGroupedShape = newShapeRange.Group();
 
-            foreach (int curo in order)
-            {
-                Effect eff = newSlide.TimeLine.MainSequence[1];
-                eff.Shape = newGroupedShape;
-
-                if (curslide.TimeLine.MainSequence.Count == 0)
-                {
-                    Shape tempShape = curslide.Shapes.AddLine(0, 0, 1, 1);
-                    Effect tempEff = curslide.TimeLine.MainSequence.AddEffect(tempShape, MsoAnimEffect.msoAnimEffectAppear);
-                    eff.MoveAfter(tempEff);
-                    tempEff.Delete();
-                }
-                else if (curslide.TimeLine.MainSequence.Count + 1 < curo)
-                {
-                    // out of range, assumed to be last
-                    eff.MoveAfter(curslide.TimeLine.MainSequence[curslide.TimeLine.MainSequence.Count]);
-                }
-                else if (curo == 1)
-                {
-                    // first item!
-                    eff.MoveBefore(curslide.TimeLine.MainSequence[1]);
-                }
-                else
-                {
-                    eff.MoveAfter(curslide.TimeLine.MainSequence[curo - 1]);
-                }
-            }
+            TransferEffects(order, newGroupedShape, curslide, newSlide);
 
             newSlide.Delete();
         }
@@ -137,23 +142,54 @@ namespace PowerPointLabs.PasteLab
 
         internal static void ReplaceClipboardItem()
         {
+            PowerPointSlide curSlide = PowerPointCurrentPresentationInfo.CurrentSlide;
+            PowerPoint.Shape selectedShape = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange[1];
+
+            PowerPoint.Shape newShape = curSlide.Shapes.Paste()[1];
+            newShape.Left = selectedShape.Left;
+            newShape.Top = selectedShape.Top;
+
+            foreach (Effect eff in curSlide.TimeLine.MainSequence)
+            {
+                if (eff.Shape == selectedShape)
+                {
+                    Effect newEff = curSlide.TimeLine.MainSequence.Clone(eff);
+                    newEff.Shape = newShape;
+                    eff.Delete();
+                }
+            }
+
+            selectedShape.PickUp();
+            newShape.Apply();
+            selectedShape.Delete();
+        }
+
+        internal static void MergeGroup()
+        {
             Presentation cur = Globals.ThisAddIn.Application.ActivePresentation;
+            PowerPointSlide curslide = PowerPointCurrentPresentationInfo.CurrentSlide;
             PowerPoint.ShapeRange selectedShapes = Globals.ThisAddIn.Application.ActiveWindow.Selection.ShapeRange;
 
             var customLayout = cur.SlideMaster.CustomLayouts[2];
             var newSlide = cur.Slides.AddSlide(cur.Slides.Count + 1, customLayout);
 
-            PowerPoint.Shape oldShape = newSlide.Shapes.Paste()[1];
+            selectedShapes[1].Copy();
+            newSlide.Shapes.Paste();
 
-            selectedShapes.Copy();
-            PowerPoint.Shape newShape = newSlide.Shapes.Paste()[1];
+            List<int> order = new List<int>();
 
-            foreach (Effect eff in newSlide.TimeLine.MainSequence)
+            foreach (Effect eff in curslide.TimeLine.MainSequence)
             {
-                eff.Shape = newShape;
+                if (eff.Shape.Equals(selectedShapes[1]))
+                {
+                    order.Add(eff.Index);
+                }
             }
 
-            newShape.Cut();
+            Shape newGroupedShape = selectedShapes.Group();
+
+            TransferEffects(order, newGroupedShape, curslide, newSlide);
+
             newSlide.Delete();
         }
     }
