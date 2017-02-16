@@ -26,6 +26,34 @@ namespace PowerPointLabs.PasteLab
             }
         }
 
+        public static void PasteAndReplace(Models.PowerPointSlide slide, PowerPoint.Selection selection)
+        {
+            if (selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes)
+            {
+                return;
+            }
+
+            PowerPoint.Shape selectedShape = selection.ShapeRange[1];
+
+            PowerPoint.Shape newShape = slide.Shapes.Paste()[1];
+            newShape.Left = selectedShape.Left;
+            newShape.Top = selectedShape.Top;
+
+            foreach (PowerPoint.Effect eff in slide.TimeLine.MainSequence)
+            {
+                if (eff.Shape == selectedShape)
+                {
+                    PowerPoint.Effect newEff = slide.TimeLine.MainSequence.Clone(eff);
+                    newEff.Shape = newShape;
+                    eff.Delete();
+                }
+            }
+
+            selectedShape.PickUp();
+            newShape.Apply();
+            selectedShape.Delete();
+        }
+
         internal static bool IsClipboardEmpty()
         {
             return Clipboard.GetDataObject() == null;

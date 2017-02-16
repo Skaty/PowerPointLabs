@@ -423,6 +423,11 @@
                 getLabel="GetLabel"
                 getImage="GetImage"
                 onAction="OnAction"/>
+        <button id="pasteAndReplace"
+                getEnabled="GetEnabled"
+                getImage="GetImage"
+                getLabel="GetLabel"
+                onAction="OnAction"/>
         <button id="hideShapeShape"
               getLabel ="GetHideSelectedShapeLabel"
               getImage="GetHideShapeImage"

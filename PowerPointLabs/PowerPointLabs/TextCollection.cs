@@ -628,6 +628,7 @@
         #region Paste Lab
         public class PasteLabText
         {
+            public const string PasteAndReplace = "Replace with Clipboard Item";
             public const string PasteToFillSlide = "Paste (Fill Slide)";
         }
         #endregion

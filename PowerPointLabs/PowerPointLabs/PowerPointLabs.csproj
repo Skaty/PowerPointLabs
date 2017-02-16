@@ -256,6 +256,7 @@
   -->
   <ItemGroup>
     <Compile Include="ActionFramework\Action\PasteLab\PasteLabFillActionHandler.cs" />
+    <Compile Include="ActionFramework\Action\PasteLab\PasteLabReplaceActionHandler.cs" />
     <Compile Include="ActionFramework\Action\RemoveHighlightingActionHandler.cs" />
     <Compile Include="ActionFramework\Action\EffectsLabBlurrinessActionHandler.cs" />
     <Compile Include="ActionFramework\Action\PositionsLabActionHandler.cs" />
@@ -294,7 +295,9 @@
     <Compile Include="ActionFramework\Content\EffectsLabBlurrinessContentHandler.cs" />
     <Compile Include="ActionFramework\Content\EmptyContentHandler.cs" />
     <Compile Include="ActionFramework\Enabled\EmptyEnabledHandler.cs" />
+    <Compile Include="ActionFramework\Enabled\PasteLab\PasteLabReplaceEnabledHandler.cs" />
     <Compile Include="ActionFramework\Enabled\PasteLab\PasteLabFillEnabledHandler.cs" />
+    <Compile Include="ActionFramework\Image\PasteLab\PasteLabReplaceImageHandler.cs" />
     <Compile Include="ActionFramework\Image\PasteLab\PasteLabFillImageHandler.cs" />
     <Compile Include="ActionFramework\Image\RemoveHighlightingImageHandler.cs" />
     <Compile Include="ActionFramework\Image\EffectsLabBlurSelectedImageHandler.cs" />
@@ -306,6 +309,7 @@
     <Compile Include="ActionFramework\Image\FitToWidthImageHandler.cs" />
     <Compile Include="ActionFramework\Common\Interface\ImageHandler.cs" />
     <Compile Include="ActionFramework\Common\Attribute\ExportLabelRibbonIdAttribute.cs" />
+    <Compile Include="ActionFramework\Label\PasteLab\PasteLabReplaceLabelHandler.cs" />
     <Compile Include="ActionFramework\Label\PasteLab\PasteLabFillLabelHandler.cs" />
     <Compile Include="ActionFramework\Label\RemoveHighlightingLabelHandler.cs" />
     <Compile Include="ActionFramework\Label\EffectsLabBlurrinessLabelHandler.cs" />
