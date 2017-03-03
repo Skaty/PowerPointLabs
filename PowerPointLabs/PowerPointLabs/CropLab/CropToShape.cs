@@ -223,8 +223,8 @@ namespace PowerPointLabs.CropLab
 
         private static bool IsShape(PowerPoint.Shape shape)
         {
-            return shape.Type == Office.MsoShapeType.msoAutoShape 
-                || shape.Type == Office.MsoShapeType.msoFreeform 
+            return shape.Type == Office.MsoShapeType.msoAutoShape
+                || shape.Type == Office.MsoShapeType.msoFreeform
                 || shape.Type == Office.MsoShapeType.msoGroup;
         }
     }

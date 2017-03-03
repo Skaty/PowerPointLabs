@@ -99,7 +99,7 @@ namespace PowerPointLabs.CropLab
         /// <param name="errorCode"></param>
         /// <returns></returns>
         private string GetErrorMessage(int errorCode)
-        {   
+        {
             switch (errorCode)
             {
                 case ErrorCodeSelectionIsInvalid:

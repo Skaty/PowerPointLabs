@@ -15,7 +15,7 @@
           </group>
         </tab>
       </tabSet>
-    </contextualTabs> 
+    </contextualTabs>
     <tabs>
       <tab id="PowerPointLabsAddIns"
            getLabel="GetPowerPointLabsAddInsTabLabel">
@@ -114,7 +114,7 @@
                   onAction="AddCaptionClick"
                   getImage="GetAddCaptionsImage"
                   size="large" />
-          <splitButton id ="removeCaptionSplit" size ="large">  
+          <splitButton id ="removeCaptionSplit" size ="large">
             <button id="RemoveCaptionsButton"
                     getLabel="GetRemoveCaptionsButtonLabel"
                     keytip="CR"
@@ -133,7 +133,7 @@
         <group id="HighlightBullets"
                getLabel="GetHighlightLabGroupLabel"
                visible="true">
-          <splitButton id ="addSpotlight" size ="large">  
+          <splitButton id ="addSpotlight" size ="large">
             <button id="AddSpotlightButton"
                     getLabel="GetAddSpotlightButtonLabel"
                     getSupertip="GetAddSpotlightButtonSupertip"
