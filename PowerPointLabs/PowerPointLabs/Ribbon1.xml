@@ -535,6 +535,11 @@
                 getLabel="GetLabel"
                 getImage="GetImage"
                 onAction="OnAction"/>
+        <button id="pasteAndReplaceImage"
+                getEnabled="GetEnabled"
+                getImage="GetImage"
+                getLabel="GetLabel"
+                onAction="OnAction"/>
         <button id="addCustomShapePicture"
                 getLabel ="GetAddCustomShapeShapeLabel"
                 getImage="GetAddToCustomShapeContextImage"
